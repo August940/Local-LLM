@@ -7,7 +7,7 @@ import type { GenerationJob, GenerationProvider, ProviderStep } from "./types";
  *
  *   POST {GENERATION_API_URL}/generate
  *     { job_id, kind, prompt, negative_prompt, style, aspect_ratio, width, height, input_image_url }
- *   GET  {GENERATION_API_URL}/status/{id}
+ *   GET  {GENERATION_API_URL}/status/{id}   (id = the one returned by /generate)
  *
  * Both return one of:
  *   { status: "queued" | "processing", id }
@@ -53,7 +53,12 @@ const EXT: Record<string, string> = {
 };
 
 async function toStep(res: Response, fallbackId?: string): Promise<ProviderStep> {
-  if (!res.ok) return { state: "failed", error: `Generation API error ${res.status}: ${(await res.text()).slice(0, 300)}` };
+  if (!res.ok) {
+    // While polling, a non-2xx is a transient upstream error: keep the job and retry on the next tick
+    // (the queue's stale-job timeout still fails it eventually). Only a 200 with status "failed" is final.
+    if (fallbackId) return { state: "pending", providerJobId: fallbackId };
+    return { state: "failed", error: `Generation API error ${res.status}: ${(await res.text()).slice(0, 300)}` };
+  }
   const body = (await res.json()) as ApiResponse;
   if (body.status === "failed") return { state: "failed", error: body.error ?? "Generation failed" };
   if (body.status !== "completed") {
