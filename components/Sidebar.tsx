@@ -1,9 +1,8 @@
 "use client";
 
 import {
-  ChevronLeft,
   Compass,
-  DollarSign,
+  CreditCard,
   Heart,
   House,
   ImagePlus,
@@ -11,11 +10,14 @@ import {
   LogOut,
   Menu,
   MessageSquare,
+  PanelLeftClose,
+  PanelLeftOpen,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
-import { Logo } from "./Logo";
+import { Logo, LogoMark } from "./Logo";
 
 const NAV = [
   { href: "/", label: "Home", icon: House },
@@ -23,7 +25,7 @@ const NAV = [
   { href: "/generator", label: "Generator", icon: ImagePlus },
   { href: "/explore", label: "Explore", icon: Compass },
   { href: "/my-ai", label: "My AI", icon: Heart },
-  { href: "/subscription", label: "Subscription", icon: DollarSign },
+  { href: "/subscription", label: "Subscription", icon: CreditCard },
 ];
 
 export type SidebarUser = { name: string; plan: string; credits: number } | null;
@@ -51,23 +53,24 @@ export function AppShell({ user, children }: { user: SidebarUser; children: Reac
   }
 
   const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  const current = NAV.find((n) => isActive(n.href))?.label ?? (pathname === "/login" ? "Login" : "");
 
   return (
     <div className="shell" data-collapsed={collapsed} data-mobile-open={mobileOpen}>
-      {/* Shared gradient used as stroke for the nav icons */}
-      <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
-        <defs>
-          <linearGradient id="dm-gradient" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#ff1aa1" />
-            <stop offset="1" stopColor="#8b29e0" />
-          </linearGradient>
-        </defs>
-      </svg>
-
       <aside className="sidebar" aria-label="Main navigation">
-        <Link href="/" className="sidebar-brand" title="dressmaker.ai">
-          <Logo />
-        </Link>
+        <div className="sidebar-brand">
+          <Link href="/" title="dressmaker.ai" style={{ display: "inline-flex" }}>
+            {collapsed ? <LogoMark size={26} /> : <Logo />}
+          </Link>
+          <button
+            className="btn btn-icon btn-text"
+            style={{ marginLeft: "auto", display: mobileOpen ? "inline-flex" : "none" }}
+            onClick={() => setMobileOpen(false)}
+            aria-label="Close menu"
+          >
+            <X size={18} />
+          </button>
+        </div>
         <nav>
           {NAV.map(({ href, label, icon: Icon }) => (
             <Link
@@ -77,46 +80,54 @@ export function AppShell({ user, children }: { user: SidebarUser; children: Reac
               aria-current={isActive(href) ? "page" : undefined}
               title={collapsed ? label : undefined}
             >
-              <Icon strokeWidth={1.8} />
+              <Icon strokeWidth={1.6} aria-hidden="true" />
               <span className="nav-label">{label}</span>
             </Link>
           ))}
         </nav>
 
-        <button
-          className="sidebar-toggle"
-          onClick={toggle}
-          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-          aria-expanded={!collapsed}
-        >
-          <ChevronLeft size={16} />
-        </button>
-
         <div className="sidebar-footer">
           {user ? (
             <>
               <Link href="/subscription" className="user-card" title={user.name}>
-                <span className="avatar">{user.name.slice(0, 1).toUpperCase()}</span>
+                <span className="avatar" aria-hidden="true">
+                  {user.name.slice(0, 1).toUpperCase()}
+                </span>
                 <span className="user-meta">
                   <strong>{user.name}</strong>
-                  <span>
+                  <span className="num">
                     {user.plan} · {user.credits} credits
                   </span>
                 </span>
               </Link>
               <form action="/auth/signout" method="post">
-                <button className="nav-link" style={{ width: "100%", border: 0, background: "none", cursor: "pointer" }}>
-                  <LogOut strokeWidth={1.8} />
+                <button className="nav-link" title={collapsed ? "Log out" : undefined}>
+                  <LogOut strokeWidth={1.6} aria-hidden="true" />
                   <span className="nav-label">Log out</span>
                 </button>
               </form>
             </>
           ) : (
-            <Link href="/login" className="nav-link" aria-current={pathname === "/login" ? "page" : undefined}>
-              <LogIn strokeWidth={1.8} />
+            <Link
+              href="/login"
+              className="nav-link"
+              aria-current={pathname === "/login" ? "page" : undefined}
+              title={collapsed ? "Login" : undefined}
+            >
+              <LogIn strokeWidth={1.6} aria-hidden="true" />
               <span className="nav-label">Login</span>
             </Link>
           )}
+          <button
+            className="sidebar-toggle"
+            onClick={toggle}
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+            aria-expanded={!collapsed}
+            title={collapsed ? "Expand" : undefined}
+          >
+            {collapsed ? <PanelLeftOpen size={16} strokeWidth={1.6} /> : <PanelLeftClose size={16} strokeWidth={1.6} />}
+            <span className="nav-label">Collapse</span>
+          </button>
         </div>
       </aside>
 
@@ -125,9 +136,14 @@ export function AppShell({ user, children }: { user: SidebarUser; children: Reac
       <div className="main">
         <div className="mobile-bar">
           <button onClick={() => setMobileOpen(true)} aria-label="Open menu">
-            <Menu />
+            <Menu size={20} />
           </button>
           <Logo />
+          {current && (
+            <span className="muted" style={{ marginLeft: "auto", fontSize: 14 }}>
+              {current}
+            </span>
+          )}
         </div>
         {children}
       </div>

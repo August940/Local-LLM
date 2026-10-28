@@ -8,11 +8,12 @@ export default async function ExplorePage() {
   const creations = await getPublicCreations(60).catch(() => []);
   return (
     <div className="page">
-      <header className="page-header">
+      <header className="title-row"><div>
         <h1>
-          <span className="gradient-text">Explore</span> the atelier
+          Explore
         </h1>
         <p>Designs the community chose to share. Tap the wand to remix any prompt.</p>
+        </div>
       </header>
       <GalleryGrid
         items={creations}

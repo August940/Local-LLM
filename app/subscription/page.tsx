@@ -18,11 +18,12 @@ export default async function SubscriptionPage({
 
   return (
     <div className="page">
-      <header className="page-header">
+      <header className="title-row"><div>
         <h1>
-          Pick your <span className="gradient-text">plan</span>
+          Subscription
         </h1>
         <p>Credits refill every month. 1 credit per image, 10 per video clip. Cancel anytime.</p>
+        </div>
       </header>
 
       {sp.success && (
@@ -32,9 +33,9 @@ export default async function SubscriptionPage({
       )}
       {sp.canceled && <div className="notice">No changes were made to your subscription.</div>}
       {profile && current && (
-        <div className="card row between" style={{ marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
+        <div className="panel row between" style={{ marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
           <div>
-            <div className="label">Current plan</div>
+            <div className="hint">Current plan</div>
             <strong style={{ fontSize: 20 }}>{current.name}</strong>
             <span className="muted">
               {" "}
@@ -54,9 +55,9 @@ export default async function SubscriptionPage({
             <div key={plan.id} className={`plan ${featured ? "featured" : ""}`}>
               <div className="row between">
                 <h3>{plan.name}</h3>
-                {featured && <span className="pill">Most popular</span>}
+                
               </div>
-              <div className="price">
+              <div className="price num">
                 €{plan.priceEur.toFixed(plan.priceEur ? 2 : 0)}
                 <small> / month</small>
               </div>
@@ -80,9 +81,9 @@ export default async function SubscriptionPage({
                   </a>
                 )
               ) : profile ? (
-                <PlanButton plan={plan.id} label={`Get ${plan.name}`} variant={featured ? "primary" : "dark"} />
+                <PlanButton plan={plan.id} label={`Get ${plan.name}`} variant={featured ? "primary" : "ghost"} />
               ) : (
-                <a className={`btn ${featured ? "btn-primary" : "btn-dark"}`} href="/login?next=/subscription">
+                <a className={`btn ${featured ? "btn-primary" : "btn-ghost"}`} href="/login?next=/subscription">
                   Get {plan.name}
                 </a>
               )}

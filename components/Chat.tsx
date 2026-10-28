@@ -1,6 +1,6 @@
 "use client";
 
-import { Send, Sparkles } from "lucide-react";
+import { Send } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
@@ -56,7 +56,7 @@ export function Chat() {
               {prompt && (
                 <div style={{ marginTop: 10 }}>
                   <Link href={`/generator?prompt=${encodeURIComponent(prompt)}`} className="btn btn-primary btn-sm">
-                    <Sparkles size={14} /> Send to generator
+                    Send to generator
                   </Link>
                 </div>
               )}

@@ -3,11 +3,12 @@ export const metadata = { title: "Content policy · dressmaker.ai" };
 export default function PolicyPage() {
   return (
     <div className="page">
-      <header className="page-header">
+      <header className="title-row"><div>
         <h1>
-          Content <span className="gradient-text">policy</span>
+          Content policy
         </h1>
         <p>dressmaker.ai is a creative tool for fashion design. These rules keep it safe for everyone.</p>
+        </div>
       </header>
       <div className="prose">
         <h2>You must be 18 or older</h2>

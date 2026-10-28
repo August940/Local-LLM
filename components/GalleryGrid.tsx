@@ -68,7 +68,6 @@ export function GalleryGrid({ items, owner = false, onChange, emptyTitle, emptyT
   if (!view.length) {
     return (
       <div className="empty">
-        <Wand2 size={28} />
         <h3>{emptyTitle ?? "Nothing here yet"}</h3>
         <p>{emptyText ?? "Your designs will show up here."}</p>
       </div>

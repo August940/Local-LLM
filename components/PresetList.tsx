@@ -1,6 +1,6 @@
 "use client";
 
-import { Trash2, Wand2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -17,7 +17,6 @@ export function PresetList({ presets }: { presets: Preset[] }) {
   if (!list.length) {
     return (
       <div className="empty">
-        <Wand2 size={28} />
         <h3>No presets yet</h3>
         <p>Save a prompt from the Generator&apos;s Advanced section to reuse your signature style.</p>
       </div>

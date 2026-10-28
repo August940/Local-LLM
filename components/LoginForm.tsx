@@ -79,7 +79,7 @@ export function LoginForm({
             <input type="checkbox" name="policy" required style={{ marginTop: 3 }} />
             <span>
               I am 18 or older and agree to the{" "}
-              <Link href="/policy" className="gradient-text" style={{ fontWeight: 600 }}>
+              <Link href="/policy" style={{ textDecoration: "underline", textUnderlineOffset: "0.18em" }}>
                 content policy
               </Link>
               .
@@ -96,8 +96,7 @@ export function LoginForm({
         <button
           type="button"
           onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-          style={{ background: "none", border: 0, cursor: "pointer", fontWeight: 600, padding: 0 }}
-          className="gradient-text"
+          style={{ background: "none", border: 0, cursor: "pointer", fontWeight: 500, padding: 0, textDecoration: "underline", textUnderlineOffset: "0.18em" }}
         >
           {mode === "signin" ? "Create an account" : "Log in"}
         </button>

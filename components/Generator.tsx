@@ -1,6 +1,6 @@
 "use client";
 
-import { Clock, Film, ImageIcon, LoaderCircle, Sparkles, Trash2, Upload, X } from "lucide-react";
+import { Film, ImageIcon, LoaderCircle, Trash2, Upload, X } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { GenerationView } from "@/lib/generation/serialize";
@@ -202,19 +202,19 @@ export function Generator({
 
   return (
     <div className="page">
-      <header className="page-header row between" style={{ alignItems: "flex-end", flexWrap: "wrap", gap: 16 }}>
+      <header className="title-row">
         <div>
           <h1>
-            Design <span className="gradient-text">studio</span>
+            Generator
           </h1>
           <p>Describe a look, add a reference photo, and send it to the queue.</p>
         </div>
         <div className="row" style={{ gap: 10 }}>
-          <span className="status">
-            <Sparkles size={14} /> {credits} credits · {plan.name}
+          <span className="num muted" style={{ fontSize: 14 }}>
+            {credits} credits left · {plan.name} plan
           </span>
           {plan.id === "free" && (
-            <Link href="/subscription" className="btn btn-dark btn-sm">
+            <Link href="/subscription" className="btn btn-ghost btn-sm">
               Upgrade
             </Link>
           )}
@@ -229,7 +229,7 @@ export function Generator({
       )}
 
       <div className="generator">
-        <form className="card" onSubmit={submit}>
+        <form className="panel" onSubmit={submit}>
           <div className="row between" style={{ marginBottom: 18 }}>
             <div className="seg" role="group" aria-label="Output type">
               <button type="button" aria-pressed={kind === "image"} onClick={() => setKind("image")}>
@@ -314,9 +314,9 @@ export function Generator({
                 </>
               ) : (
                 <div>
-                  <Upload size={26} style={{ display: "block", margin: "0 auto 8px" }} />
-                  <strong>Drop an image or click to upload</strong>
-                  <div className="muted" style={{ fontSize: 13, marginTop: 4 }}>
+                  <Upload size={20} strokeWidth={1.6} style={{ display: "block", margin: "0 auto 8px" }} />
+                  <strong style={{ fontWeight: 500 }}>Drop an image or click to upload</strong>
+                  <div className="hint" style={{ marginTop: 4 }}>
                     A sketch, fabric swatch or outfit photo · PNG, JPG, WebP up to 10 MB
                   </div>
                 </div>
@@ -360,7 +360,7 @@ export function Generator({
           </div>
 
           <details style={{ marginBottom: 18 }}>
-            <summary style={{ cursor: "pointer", fontWeight: 600, marginBottom: 12 }}>Advanced</summary>
+            <summary style={{ cursor: "pointer", fontWeight: 500, marginBottom: 12 }}>Advanced</summary>
             <div className="field">
               <label htmlFor="negative">Avoid (negative prompt)</label>
               <input
@@ -408,14 +408,14 @@ export function Generator({
           {error && <div className="notice error">{error}</div>}
 
           <button
-            className="btn btn-primary"
-            style={{ width: "100%", height: 50 }}
+            className="btn btn-primary btn-lg"
+            style={{ width: "100%" }}
             disabled={submitting || prompt.trim().length < 3 || (kind === "video" && !plan.allowVideo)}
           >
-            {submitting ? <LoaderCircle size={18} className="spin" /> : <Sparkles size={18} />}
+            {submitting && <LoaderCircle size={18} className="spin" />}
             {submitting ? "Adding to queue…" : `Generate ${kind}`}
           </button>
-          <p className="muted" style={{ fontSize: 12, textAlign: "center", marginBottom: 0 }}>
+          <p className="hint" style={{ marginTop: 10, marginBottom: 0 }}>
             By generating you agree to the <Link href="/policy">content policy</Link>. No nudity, minors or real people.
           </p>
         </form>
@@ -428,9 +428,8 @@ export function Generator({
             </span>
           </div>
           {active.length === 0 && failed.length === 0 ? (
-            <div className="empty" style={{ padding: 28, marginBottom: 28 }}>
-              <Clock size={22} />
-              <p style={{ margin: "8px 0 0" }}>Nothing in the queue. Your next design starts here.</p>
+            <div className="empty" style={{ marginBottom: 28 }}>
+              <p>Nothing in the queue. Your next design starts here.</p>
             </div>
           ) : (
             <div className="queue-list" style={{ marginBottom: 28 }}>

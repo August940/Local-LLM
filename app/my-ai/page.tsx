@@ -86,10 +86,10 @@ export default async function MyAiPage({ searchParams }: { searchParams: Promise
 
   return (
     <div className="page">
-      <header className="page-header row between" style={{ flexWrap: "wrap", gap: 16, alignItems: "flex-end" }}>
+      <header className="title-row">
         <div>
           <h1>
-            My <span className="gradient-text">AI</span>
+            My AI
           </h1>
           <p>Everything you have designed, saved and loved, stored safely in your account.</p>
         </div>

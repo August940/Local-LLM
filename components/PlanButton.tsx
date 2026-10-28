@@ -10,7 +10,7 @@ export function PlanButton({
 }: {
   plan: string;
   label: string;
-  variant: "primary" | "dark" | "ghost";
+  variant: "primary" | "ghost";
 }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
