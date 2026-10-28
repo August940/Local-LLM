@@ -55,11 +55,11 @@ create policy "users update own display fields" on public.profiles
   for update using ((select auth.uid()) = id) with check ((select auth.uid()) = id);
 
 -- Users may only change cosmetic columns themselves; plan/credits/stripe are
--- server-managed (service role bypasses this trigger via current_user check).
+-- server-managed (the service role is not restricted by this trigger).
+-- security invoker on purpose: current_user must be the caller's role.
 create or replace function public.protect_profile_columns()
 returns trigger
 language plpgsql
-security definer
 set search_path = ''
 as $$
 begin
@@ -162,10 +162,10 @@ drop policy if exists "users delete own generations" on public.generations;
 create policy "users delete own generations" on public.generations
   for delete using ((select auth.uid()) = user_id);
 
+-- security invoker on purpose: current_user must be the caller's role.
 create or replace function public.protect_generation_columns()
 returns trigger
 language plpgsql
-security definer
 set search_path = ''
 as $$
 declare
