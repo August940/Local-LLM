@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat — Kindred</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <button class="btn menu-btn" id="menu-btn" aria-label="Companions">☰</button>
+    <a class="logo" href="/"><span class="gradient-text">Kindred</span></a>
+    <button class="btn" id="reset-btn">New chat</button>
+  </nav>
+
+  <div class="chat-layout">
+    <aside class="sidebar" id="sidebar">
+      <h4>Companions</h4>
+      <div id="contacts"></div>
+      <div class="settings">
+        <h4 style="margin-top:28px">Settings</h4>
+        <label for="model">Model</label>
+        <select id="model"><option>Loading…</option></select>
+      </div>
+    </aside>
+
+    <main class="chat">
+      <div class="chat-header" id="chat-header"></div>
+      <div class="messages" id="messages"></div>
+      <form class="composer" id="composer">
+        <textarea id="input" placeholder="Type a message…" rows="1"></textarea>
+        <button class="btn btn-primary" id="send" type="submit">Send</button>
+      </form>
+    </main>
+  </div>
+
+  <script src="characters.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>

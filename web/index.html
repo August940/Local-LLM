@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kindred — AI companions that run on your machine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="nav">
+    <a class="logo" href="/"><span class="gradient-text">Kindred</span></a>
+    <div class="nav-links">
+      <a href="#companions">Companions</a>
+      <a href="#features">Features</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a class="btn btn-primary" href="chat.html">Start chatting</a>
+  </nav>
+
+  <header class="hero">
+    <h1>Your AI companion, <span class="gradient-text">private by design</span></h1>
+    <p>Chat with a companion who remembers you, has a real personality, and runs entirely on your own computer. No cloud, no logs, no one else listening.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="chat.html">Meet your companion</a>
+      <a class="btn" href="#features">How it works</a>
+    </div>
+  </header>
+
+  <section id="companions">
+    <h2 class="section-title">Pick someone to talk to</h2>
+    <p class="section-sub">Every companion has their own personality. Edit them, or create your own in <code>characters.js</code>.</p>
+    <div class="grid" id="char-grid"></div>
+  </section>
+
+  <section id="features">
+    <h2 class="section-title">Why Kindred</h2>
+    <p class="section-sub">Everything you'd expect from an AI companion app, minus the data harvesting.</p>
+    <div class="features">
+      <div class="feature"><div class="icon">🔒</div><h3>100% local</h3><p>Powered by an open model running in Ollama on your machine. Your conversations never leave it.</p></div>
+      <div class="feature"><div class="icon">🎭</div><h3>Real personalities</h3><p>Each companion has a distinct voice, backstory and sense of humor that stays consistent.</p></div>
+      <div class="feature"><div class="icon">🧠</div><h3>Remembers you</h3><p>Conversations are saved in your browser, so you can pick up right where you left off.</p></div>
+      <div class="feature"><div class="icon">⚙️</div><h3>Any model</h3><p>Swap between Llama, Mistral, Qwen, Gemma or any other model you've pulled into Ollama.</p></div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2 class="section-title">FAQ</h2>
+    <div class="faq">
+      <details><summary>Is it really free?</summary><p>Yes. Kindred is open source and the models are open weights. You only need a computer that can run them.</p></details>
+      <details><summary>What hardware do I need?</summary><p>A small model like Llama 3.2 3B runs on most laptops. 7–8B models are happiest with 16 GB of RAM or a GPU with 8 GB of VRAM.</p></details>
+      <details><summary>Where are my chats stored?</summary><p>In your browser's local storage on your own machine. Clearing site data deletes them.</p></details>
+      <details><summary>Can I create my own companion?</summary><p>Yes. Add an entry to <code>web/characters.js</code> with a name, greeting and personality prompt.</p></details>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <h2 class="section-title">Say hello</h2>
+    <p class="section-sub">Your companion is waiting, and it's only a click away.</p>
+    <a class="btn btn-primary" href="chat.html">Start chatting</a>
+  </section>
+
+  <footer>
+    <span>© Kindred. Runs locally.</span>
+    <span>Built on Ollama + open models</span>
+  </footer>
+
+  <script src="characters.js"></script>
+  <script>
+    const grid = document.getElementById("char-grid");
+    for (const c of CHARACTERS) {
+      const a = document.createElement("a");
+      a.className = "char";
+      a.href = "chat.html#" + c.id;
+      a.innerHTML = `<div class="avatar" style="background:linear-gradient(135deg,${c.colors[0]},${c.colors[1]})">${c.name[0]}</div>
+        <div class="info"><h3></h3><p></p></div>`;
+      a.querySelector("h3").textContent = c.name;
+      a.querySelector("p").textContent = c.tagline;
+      grid.appendChild(a);
+    }
+  </script>
+</body>
+</html>
